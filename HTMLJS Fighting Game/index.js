@@ -11,7 +11,7 @@ canvas.height = 576;
 // Background
 c.fillRect(0, 0, canvas.width, canvas.height);
 
-// Player info
+// Player variables
 const playerHeight = 150;
 const playerWidth = 50;
 
@@ -26,26 +26,28 @@ class Sprite {
     this.position = position;
     this.velocity = velocity;
     this.height = playerHeight;
+    this.width = playerWidth
     this.lastKey;
     this.attackBox = {
-      posistion: this.position,
+      position: this.position,
       height: 50,
       width: 100,
     };
     this.health = 100;
     this.color = color
+    this.isAttacking = false
   }
 
   draw() {
     // Draw player
     c.fillStyle = this.color;
-    c.fillRect(this.position.x, this.position.y, playerWidth, playerHeight);
+    c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     // Draw attack box
     c.fillStyle = "green";
     c.fillRect(
-      this.attackBox.posistion.x,
-      this.attackBox.posistion.y,
+      this.attackBox.position.x,
+      this.attackBox.position.y,
       this.attackBox.width,
       this.attackBox.height
     );
@@ -62,6 +64,15 @@ class Sprite {
     } else {
       this.velocity.y += gravity;
     }
+  }
+
+  attack() {
+    this.isAttacking = true
+
+    // Timeout for 100ms
+    setTimeout(() => {
+        this.isAttacking = false
+    }, 100)
   }
 } // Sprite class
 
@@ -104,7 +115,7 @@ const keys = {
   },
   ArrowDown: {
     pressed: false,
-  },
+  }
 };
 
 // Animate Function
@@ -130,6 +141,16 @@ function animate() {
     enemy.velocity.x = -playerSpeed;
   } else if (keys.ArrowRight.pressed && enemy.lastKey == "ArrowRight") {
     enemy.velocity.x = playerSpeed;
+  }
+
+
+  // Detect for attack collision
+  if (player.attackBox.position.x + player.attackBox.width >= enemy.position.x 
+    && player.attackBox.position.x <= enemy.position.x + enemy.width
+    && player.attackBox.position.y + player.attackBox.height >= enemy.position.y
+    && player.attackBox.position.y <= enemy.position.y + enemy.height 
+    && player.isAttacking) {
+    console.log("attack hit")
   }
 } // Animate function
 
