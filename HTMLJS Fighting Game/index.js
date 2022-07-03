@@ -22,11 +22,11 @@ const gravity = 0.7;
 
 // Player Class
 class Sprite {
-  constructor({ position, velocity, color = "red"}) {
+  constructor({ position, velocity, color = "red" }) {
     this.position = position;
     this.velocity = velocity;
     this.height = playerHeight;
-    this.width = playerWidth
+    this.width = playerWidth;
     this.lastKey;
     this.attackBox = {
       position: this.position,
@@ -34,8 +34,8 @@ class Sprite {
       width: 100,
     };
     this.health = 100;
-    this.color = color
-    this.isAttacking = false
+    this.color = color;
+    this.isAttacking = false;
   }
 
   draw() {
@@ -67,12 +67,12 @@ class Sprite {
   }
 
   attack() {
-    this.isAttacking = true
+    this.isAttacking = true;
 
     // Timeout for 100ms
     setTimeout(() => {
-        this.isAttacking = false
-    }, 100)
+      this.isAttacking = false;
+    }, 100);
   }
 } // Sprite class
 
@@ -80,7 +80,7 @@ class Sprite {
 const player = new Sprite({
   position: { x: 0, y: 0 },
   velocity: { x: 0, y: 0 },
-  color: "blue"
+  color: "blue",
 });
 
 const enemy = new Sprite({
@@ -115,7 +115,7 @@ const keys = {
   },
   ArrowDown: {
     pressed: false,
-  }
+  },
 };
 
 // Animate Function
@@ -143,14 +143,15 @@ function animate() {
     enemy.velocity.x = playerSpeed;
   }
 
-
   // Detect for attack collision
-  if (player.attackBox.position.x + player.attackBox.width >= enemy.position.x 
-    && player.attackBox.position.x <= enemy.position.x + enemy.width
-    && player.attackBox.position.y + player.attackBox.height >= enemy.position.y
-    && player.attackBox.position.y <= enemy.position.y + enemy.height 
-    && player.isAttacking) {
-    console.log("attack hit")
+  if (
+    player.attackBox.position.x + player.attackBox.width >= enemy.position.x &&
+    player.attackBox.position.x <= enemy.position.x + enemy.width &&
+    player.attackBox.position.y + player.attackBox.height >= enemy.position.y &&
+    player.attackBox.position.y <= enemy.position.y + enemy.height &&
+    player.isAttacking
+  ) {
+    console.log("attack hit");
   }
 } // Animate function
 
