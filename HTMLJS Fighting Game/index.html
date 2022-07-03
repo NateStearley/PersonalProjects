@@ -1,15 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fighting Game</title>
-</head>
-<body>
-    <canvas></canvas>
-    <script src="index.js"></script>
 
-    
-</body>
+    <!-- Apply to everything -->
+    <style>
+      * {
+        /* padding not taken into account when caclulating window borders */
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- container div (need inline block to match width of children)-->
+    <div style="position: relative; display: inline-block">
+      <!-- smaller container div -->
+      <div
+        style="
+          position: absolute;
+          display: flex;
+          width: 100%;
+          align-items: center;
+          padding: 20px;
+        "
+      >
+        <!-- player health -->
+        <div
+          style="
+            position: relative;
+            height: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+          "
+        >
+          <!-- health div -->
+          <div
+            style="background-color: yellow; height: 30px; width: 100%"
+          ></div>
+          <div
+            id="playerHealth"
+            style="
+              position: absolute;
+              background-color: blue;
+              top: 0px;
+              right: 0px;
+              bottom: 0px;
+              width: 100%;
+            "
+          ></div>
+        </div>
+        <!-- timer -->
+        <div
+          id="timer"
+          style="
+            background-color: red;
+            width: 100px;
+            height: 100px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          10
+        </div>
+        <!-- enemy health -->
+        <!-- control div -->
+        <div style="position: relative; height: 30px; width: 100%">
+          <!-- health div -->
+          <div style="background-color: yellow; height: 30px"></div>
+          <div
+            id="enemyHealth"
+            style="
+              position: absolute;
+              background-color: blue;
+              top: 0px;
+              right: 0px;
+              bottom: 0px;
+              left: 0;
+            "
+          ></div>
+        </div>
+      </div>
+      <canvas></canvas>
+    </div>
+    <script src="index.js"></script>
+  </body>
 </html>

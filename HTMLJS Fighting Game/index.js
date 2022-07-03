@@ -141,6 +141,21 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
   )
 }
 
+let timer = 10
+function decreaseTimer() {
+  if (timer > 0) {
+    setTimeout(decreaseTimer, 1000)
+    timer --
+    document.querySelector("#timer").innerHTML = timer
+  }
+
+  if (player.heather === enemy.health) {
+    // console.log("tie")
+  }
+}
+
+decreaseTimer()
+
 // Animate Function
 function animate() {
   window.requestAnimationFrame(animate)
@@ -173,6 +188,8 @@ function animate() {
   ) {
     player.isAttacking = false // Ensure that only one hit registers
     console.log("attack hit by player")
+    enemy.health -= 20
+    document.querySelector("#enemyHealth").style.width = enemy.health + "%"
   }
 
   // Enemy attack collision
@@ -182,6 +199,8 @@ function animate() {
   ) {
     enemy.isAttacking = false // Ensure that only one hit registers
     console.log("attack hit by enemy")
+    player.health -= 20
+    document.querySelector("#playerHealth").style.width = player.health + "%"
   }
 } // Animate function
 
