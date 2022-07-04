@@ -16,6 +16,7 @@ const playerHeight = 150
 const playerWidth = 50
 
 // Game variables
+let timer = 45
 const playerSpeed = 7
 const jumpVelocity = 20
 const gravity = 0.7
@@ -141,16 +142,30 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
   )
 }
 
-let timer = 10
+function DetermineWinner({ player, enemy, timerId }) {
+  clearTimeout(timerId)
+  if (document.querySelector("#displayText").style.display != "flex") {
+    if (player.health === enemy.health) {
+      document.querySelector("#displayText").innerHTML = "Tie"
+    } else if (player.health > enemy.health) {
+      document.querySelector("#displayText").innerHTML = "Player 1 Wins!"
+    } else if (player.health < enemy.health) {
+      document.querySelector("#displayText").innerHTML = "Player 2 Wins!"
+    }
+    document.querySelector("#displayText").style.display = "flex"
+  }
+}
+
+let timerId
 function decreaseTimer() {
   if (timer > 0) {
-    setTimeout(decreaseTimer, 1000)
-    timer --
+    timerId = setTimeout(decreaseTimer, 1000)
+    timer--
     document.querySelector("#timer").innerHTML = timer
   }
 
-  if (player.heather === enemy.health) {
-    // console.log("tie")
+  if (timer == 0) {
+    DetermineWinner({ player: player, enemy: enemy, timerId })
   }
 }
 
@@ -201,6 +216,12 @@ function animate() {
     console.log("attack hit by enemy")
     player.health -= 20
     document.querySelector("#playerHealth").style.width = player.health + "%"
+  }
+
+  // Check for a player having zero health
+
+  if (player.health <= 0 || enemy.health <= 0) {
+    DetermineWinner({ player: player, enemy: enemy, timerId })
   }
 } // Animate function
 

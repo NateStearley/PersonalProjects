@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fighting Game</title>
 
-    <!-- Apply to everything -->
     <style>
+      /* Apply to everything */
       * {
         /* padding not taken into account when caclulating window borders */
         box-sizing: border-box;
@@ -66,6 +66,7 @@
             justify-content: center;
           "
         >
+          <!-- in place of timer -->
           10
         </div>
         <!-- enemy health -->
@@ -85,6 +86,23 @@
             "
           ></div>
         </div>
+      </div>
+      <!-- User message div -->
+      <div
+        id="displayText"
+        style="
+          position: absolute;
+          color: white;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          top: 0px;
+          right: 0px;
+          left: 0px;
+          bottom: 0px;
+        "
+      >
+        Tie
       </div>
       <canvas></canvas>
     </div>
