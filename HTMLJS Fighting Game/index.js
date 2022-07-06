@@ -28,6 +28,16 @@ const background = new Sprite({
   imageSrc: "./img/background.png",
 })
 
+const shop = new Sprite({
+  position: {
+    x: 620,
+    y: 128,
+  },
+  imageSrc: "./img/shop.png",
+  scale: 2.75,
+  framesMax: 6
+})
+
 // Player and Enemy Instantiation
 const player = new Fighter({
   position: { x: 0, y: 0 },
@@ -41,8 +51,6 @@ const enemy = new Fighter({
   velocity: { x: 0, y: 0 },
   offset: { x: -50, y: 0 },
 })
-
-console.log(player)
 
 // This const represents possible pressed keys in order to more effectivly handle accurate player input
 const keys = {
@@ -72,8 +80,6 @@ const keys = {
   },
 }
 
-
-
 decreaseTimer()
 
 // Animate Function
@@ -82,6 +88,7 @@ function animate() {
   c.fillStyle = "black"
   c.fillRect(0, 0, canvas.width, canvas.height) // Background of arena
   background.update()
+  shop.update()
   player.update()
   enemy.update()
 
@@ -141,7 +148,7 @@ window.addEventListener("keydown", (event) => {
       keys.w.pressed = true
       // player.lastKey = "w"
       // console.log(player.position.y)
-      if (player.position.y >= canvas.height - player.height) {
+      if (player.position.y >= canvas.height - player.height - 96) {
         player.velocity.y = -jumpVelocity
       }
       break
