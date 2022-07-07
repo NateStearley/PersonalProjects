@@ -64,21 +64,21 @@ const player = new Fighter({
       framesMax: 2,
     },
     fall: {
-      imageSrc: './img/samuraiMack/Fall.png',
-      framesMax: 2
+      imageSrc: "./img/samuraiMack/Fall.png",
+      framesMax: 2,
     },
     attack1: {
-      imageSrc: './img/samuraiMack/Attack1.png',
-      framesMax: 6
+      imageSrc: "./img/samuraiMack/Attack1.png",
+      framesMax: 6,
     },
     takeHit: {
-      imageSrc: './img/samuraiMack/Take Hit - white silhouette.png',
-      framesMax: 4
+      imageSrc: "./img/samuraiMack/Take Hit - white silhouette.png",
+      framesMax: 4,
     },
     death: {
-      imageSrc: './img/samuraiMack/Death.png',
-      framesMax: 6
-    }
+      imageSrc: "./img/samuraiMack/Death.png",
+      framesMax: 6,
+    },
   },
 })
 
@@ -91,7 +91,7 @@ const enemy = new Fighter({
   scale: 2.5,
   offset: {
     x: 215,
-    y: 157,
+    y: 169,
   },
   sprites: {
     idle: {
@@ -101,6 +101,26 @@ const enemy = new Fighter({
     run: {
       imageSrc: "./img/kenji/Run.png",
       framesMax: 8,
+    },
+    jump: {
+      imageSrc: "./img/kenji/Jump.png",
+      framesMax: 2,
+    },
+    fall: {
+      imageSrc: "./img/kenji/Fall.png",
+      framesMax: 2,
+    },
+    attack1: {
+      imageSrc: "./img/kenji/Attack1.png",
+      framesMax: 4,
+    },
+    takeHit: {
+      imageSrc: "./img/kenji/Take hit.png",
+      framesMax: 3,
+    },
+    death: {
+      imageSrc: "./img/kenji/Death.png",
+      framesMax: 7,
     },
   },
 })
@@ -143,37 +163,45 @@ function animate() {
   background.update()
   shop.update()
   player.update()
-  // enemy.update()
+  enemy.update()
 
   // Trigger velocity changes when keys are pressed
   // Player movement
   player.velocity.x = 0
-  player.switchSprite("idle")
   if (keys.a.pressed && player.lastKey == "a") {
     player.velocity.x = -playerSpeed
     player.switchSprite("run")
   } else if (keys.d.pressed && player.lastKey == "d") {
     player.velocity.x = playerSpeed
     player.switchSprite("run")
+  } else {
+    player.switchSprite("idle")
   }
 
   // Check if jumping for jump animation
   if (player.velocity.y < 0) {
     player.switchSprite("jump")
+  } else if (player.velocity.y > 0) {
+    player.switchSprite("fall")
   }
 
   // Enemy movement
   enemy.velocity.x = 0
   if (keys.ArrowLeft.pressed && enemy.lastKey == "ArrowLeft") {
     enemy.velocity.x = -playerSpeed
+    enemy.switchSprite("run")
   } else if (keys.ArrowRight.pressed && enemy.lastKey == "ArrowRight") {
     enemy.velocity.x = playerSpeed
+    enemy.switchSprite("run")
+  } else {
+    enemy.switchSprite("idle")
   }
 
   // Check if jumping for jump animation
   if (enemy.velocity.y < 0) {
-    enemy.image = enemy.sprites.jump.image
-    enemy.framesMax = enemy.sprites.jump.framesMax
+    enemy.switchSprite("jump")
+  } else if (enemy.velocity.y > 0) {
+    enemy.switchSprite("fall")
   }
 
   // Detect for attack collision
@@ -182,7 +210,7 @@ function animate() {
     player.isAttacking
   ) {
     player.isAttacking = false // Ensure that only one hit registers
-    console.log("attack hit by player")
+    // console.log("attack hit by player")
     enemy.health -= 20
     document.querySelector("#enemyHealth").style.width = enemy.health + "%"
   }
@@ -193,7 +221,7 @@ function animate() {
     enemy.isAttacking
   ) {
     enemy.isAttacking = false // Ensure that only one hit registers
-    console.log("attack hit by enemy")
+    // console.log("attack hit by enemy")
     player.health -= 20
     document.querySelector("#playerHealth").style.width = player.health + "%"
   }
@@ -247,15 +275,11 @@ window.addEventListener("keydown", (event) => {
     case "ArrowUp":
       keys.ArrowUp.pressed = true
       // enemy.lastKey = "ArrowUp"
-      if (enemy.position.y >= canvas.height - enemy.height) {
+      if (enemy.position.y >= canvas.height - enemy.height - 96) {
         enemy.velocity.y = -jumpVelocity
       }
       break
     case "ArrowDown":
-      keys.ArrowDown.pressed = true
-      enemy.lastKey = "ArrowDown"
-      break
-    case "n":
       enemy.attack()
       break
   }
