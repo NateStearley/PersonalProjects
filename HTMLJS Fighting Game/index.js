@@ -80,6 +80,14 @@ const player = new Fighter({
       framesMax: 6,
     },
   },
+  attackBox: {
+    offset: {
+      x: 100,
+      y: 50,
+    },
+    width: 125,
+    height: 75,
+  },
 })
 
 const enemy = new Fighter({
@@ -122,6 +130,14 @@ const enemy = new Fighter({
       imageSrc: "./img/kenji/Death.png",
       framesMax: 7,
     },
+  },
+  attackBox: {
+    offset: {
+      x: -150,
+      y: 50,
+    },
+    width: 125,
+    height: 75,
   },
 })
 
@@ -207,23 +223,35 @@ function animate() {
   // Detect for attack collision
   if (
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
-    player.isAttacking
+    player.isAttacking &&
+    player.framesCurrent == 4
   ) {
     player.isAttacking = false // Ensure that only one hit registers
     // console.log("attack hit by player")
-    enemy.health -= 20
+    enemy.health -= 12
     document.querySelector("#enemyHealth").style.width = enemy.health + "%"
+  }
+
+  // If player misses
+  if (player.isAttacking && player.framesCurrent == 4) {
+    player.isAttacking = false
   }
 
   // Enemy attack collision
   if (
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
-    enemy.isAttacking
+    enemy.isAttacking &&
+    enemy.framesCurrent == 2
   ) {
     enemy.isAttacking = false // Ensure that only one hit registers
     // console.log("attack hit by enemy")
-    player.health -= 20
+    player.health -= 10
     document.querySelector("#playerHealth").style.width = player.health + "%"
+  }
+
+  // If enemy misses
+  if (enemy.isAttacking && enemy.framesCurrent == 2) {
+    enemy.isAttacking = false
   }
 
   // Check for a player having zero health
