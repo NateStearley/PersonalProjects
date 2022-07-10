@@ -71,7 +71,7 @@ const player = new Fighter({
       imageSrc: "./img/samuraiMack/Attack1.png",
       framesMax: 6,
     },
-    takeHit: {
+    takehit: {
       imageSrc: "./img/samuraiMack/Take Hit - white silhouette.png",
       framesMax: 4,
     },
@@ -122,7 +122,7 @@ const enemy = new Fighter({
       imageSrc: "./img/kenji/Attack1.png",
       framesMax: 4,
     },
-    takeHit: {
+    takehit: {
       imageSrc: "./img/kenji/Take hit.png",
       framesMax: 3,
     },
@@ -228,7 +228,7 @@ function animate() {
   ) {
     player.isAttacking = false // Ensure that only one hit registers
     // console.log("attack hit by player")
-    enemy.health -= 12
+    enemy.takeHit()
     document.querySelector("#enemyHealth").style.width = enemy.health + "%"
   }
 
@@ -245,7 +245,7 @@ function animate() {
   ) {
     enemy.isAttacking = false // Ensure that only one hit registers
     // console.log("attack hit by enemy")
-    player.health -= 10
+    player.takeHit()
     document.querySelector("#playerHealth").style.width = player.health + "%"
   }
 

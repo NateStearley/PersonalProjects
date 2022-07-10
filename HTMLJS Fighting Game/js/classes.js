@@ -94,14 +94,13 @@ class Fighter extends Sprite {
     this.color = color
     this.isAttacking = false
     this.sprites = sprites
+    this.dead = false
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image()
       sprites[sprite].image.src = sprites[sprite].imageSrc
     }
-
-    console.log(this.sprites)
-  }
+  } // Fighter Constructor
 
   // Needs to use the draw method from sprite
   // draw() {
@@ -123,7 +122,9 @@ class Fighter extends Sprite {
 
   update() {
     this.draw()
-    this.animateFrames()
+    if (!this.dead) {
+      this.animateFrames()
+    }
 
     // Attack box
     this.attackBox.position.x = this.position.x + this.attackBox.offset.x
@@ -154,13 +155,41 @@ class Fighter extends Sprite {
     this.isAttacking = true
   }
 
+  takeHit() {
+    this.health -= 20
+
+    if (this.health <= 0) {
+      this.switchSprite("death")
+    } else {
+      this.switchSprite("takehit")
+    }
+  }
+
   switchSprite(sprite) {
+    // Override other animations
+    // Override for attack
     if (
       this.image === this.sprites.attack1.image &&
       this.framesCurrent < this.sprites.attack1.framesMax - 1
     ) {
       return
     }
+
+    // Override for takehit
+    if (
+      this.image === this.sprites.takehit.image &&
+      this.framesCurrent < this.sprites.takehit.framesMax - 1
+    ) {
+      return
+    }
+
+    // Override for death
+    if (this.image === this.sprites.death.image) {
+      if (this.framesCurrent === this.sprites)
+      return
+    }
+
+    // Switch case
     switch (sprite) {
       case "idle":
         if (this.image !== this.sprites.idle.image) {
