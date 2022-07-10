@@ -185,7 +185,9 @@ class Fighter extends Sprite {
 
     // Override for death
     if (this.image === this.sprites.death.image) {
-      if (this.framesCurrent === this.sprites)
+      if (this.framesCurrent === this.sprites.death.framesMax - 1) {
+        this.dead = true
+      }
       return
     }
 

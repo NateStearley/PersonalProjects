@@ -266,50 +266,56 @@ animate()
 // Event Listeners
 // Key Down
 window.addEventListener("keydown", (event) => {
-  switch (event.key) {
-    case "w":
-      keys.w.pressed = true
-      // player.lastKey = "w"
-      // console.log(player.position.y)
-      if (player.position.y >= canvas.height - player.height - 96) {
-        player.velocity.y = -jumpVelocity
-      }
-      break
-    case "a":
-      keys.a.pressed = true
-      player.lastKey = "a"
-      break
-    case "s":
-      keys.s.pressed = true
-      player.lastKey = "s"
-      break
-    case "d":
-      keys.d.pressed = true
-      player.lastKey = "d"
-      break
-    case " ":
-      player.attack()
-      break
+  if (!player.dead) {
+    switch (event.key) {
+      case "w":
+        keys.w.pressed = true
+        // player.lastKey = "w"
+        // console.log(player.position.y)
+        if (player.position.y >= canvas.height - player.height - 96) {
+          player.velocity.y = -jumpVelocity
+        }
+        break
+      case "a":
+        keys.a.pressed = true
+        player.lastKey = "a"
+        break
+      case "s":
+        keys.s.pressed = true
+        player.lastKey = "s"
+        break
+      case "d":
+        keys.d.pressed = true
+        player.lastKey = "d"
+        break
+      case " ":
+        player.attack()
+        break
+    }
+  }
 
-    // Arrow Keys - For player 2
-    case "ArrowLeft":
-      keys.ArrowLeft.pressed = true
-      enemy.lastKey = "ArrowLeft"
-      break
-    case "ArrowRight":
-      keys.ArrowRight.pressed = true
-      enemy.lastKey = "ArrowRight"
-      break
-    case "ArrowUp":
-      keys.ArrowUp.pressed = true
-      // enemy.lastKey = "ArrowUp"
-      if (enemy.position.y >= canvas.height - enemy.height - 96) {
-        enemy.velocity.y = -jumpVelocity
-      }
-      break
-    case "ArrowDown":
-      enemy.attack()
-      break
+  if (!enemy.dead) {
+    switch (event.key) {
+      // Arrow Keys - For player 2
+      case "ArrowLeft":
+        keys.ArrowLeft.pressed = true
+        enemy.lastKey = "ArrowLeft"
+        break
+      case "ArrowRight":
+        keys.ArrowRight.pressed = true
+        enemy.lastKey = "ArrowRight"
+        break
+      case "ArrowUp":
+        keys.ArrowUp.pressed = true
+        // enemy.lastKey = "ArrowUp"
+        if (enemy.position.y >= canvas.height - enemy.height - 96) {
+          enemy.velocity.y = -jumpVelocity
+        }
+        break
+      case "ArrowDown":
+        enemy.attack()
+        break
+    }
   }
   // console.log(event)
 })
