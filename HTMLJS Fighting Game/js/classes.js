@@ -151,8 +151,11 @@ class Fighter extends Sprite {
   }
 
   attack() {
-    this.switchSprite("attack1")
-    this.isAttacking = true
+    // Prevent spamming the attack button and it registering every time
+    if (this.image !== this.sprites.attack1.image) {
+      this.switchSprite("attack1")
+      this.isAttacking = true
+    }
   }
 
   takeHit() {
