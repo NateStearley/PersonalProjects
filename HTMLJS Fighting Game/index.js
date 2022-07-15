@@ -178,6 +178,8 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height) // Background of arena
   background.update()
   shop.update()
+  c.fillStyle = "rgba(255, 255, 255, 0.1)"
+  c.fillRect(0, 0, canvas.width, canvas.height)
   player.update()
   enemy.update()
 
@@ -229,7 +231,8 @@ function animate() {
     player.isAttacking = false // Ensure that only one hit registers
     // console.log("attack hit by player")
     enemy.takeHit()
-    document.querySelector("#enemyHealth").style.width = enemy.health + "%"
+    // document.querySelector("#enemyHealth").style.width = enemy.health + "%"
+    gsap.to("#enemyHealth", {width: enemy.health + "%" })
   }
 
   // If player misses
@@ -246,7 +249,8 @@ function animate() {
     enemy.isAttacking = false // Ensure that only one hit registers
     // console.log("attack hit by enemy")
     player.takeHit()
-    document.querySelector("#playerHealth").style.width = player.health + "%"
+    // document.querySelector("#playerHealth").style.width = player.health + "%"
+    gsap.to("#playerHealth", {width: player.health + "%" })
   }
 
   // If enemy misses
