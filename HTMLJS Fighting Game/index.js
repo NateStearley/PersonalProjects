@@ -40,7 +40,7 @@ const shop = new Sprite({
 
 // Player and Enemy Instantiation
 const player = new Fighter({
-  position: { x: 0, y: 0 },
+  position: { x: 50, y: 0 },
   velocity: { x: 0, y: 0 },
   color: "blue",
   imageSrc: "./img/samuraiMack/Idle.png",
@@ -91,7 +91,7 @@ const player = new Fighter({
 })
 
 const enemy = new Fighter({
-  position: { x: 400, y: 100 },
+  position: { x: 900, y: 100 },
   velocity: { x: 0, y: 0 },
   offset: { x: -50, y: 0 },
   imageSrc: "./img/kenji/Idle.png",
@@ -232,7 +232,7 @@ function animate() {
     // console.log("attack hit by player")
     enemy.takeHit()
     // document.querySelector("#enemyHealth").style.width = enemy.health + "%"
-    gsap.to("#enemyHealth", {width: enemy.health + "%" })
+    gsap.to("#enemyHealth", { width: enemy.health + "%" })
   }
 
   // If player misses
@@ -250,7 +250,7 @@ function animate() {
     // console.log("attack hit by enemy")
     player.takeHit()
     // document.querySelector("#playerHealth").style.width = player.health + "%"
-    gsap.to("#playerHealth", {width: player.health + "%" })
+    gsap.to("#playerHealth", { width: player.health + "%" })
   }
 
   // If enemy misses
