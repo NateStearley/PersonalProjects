@@ -40,7 +40,7 @@ const shop = new Sprite({
 
 // Player and Enemy Instantiation
 const player = new Fighter({
-  position: { x: 0, y: 0 },
+  position: { x: 50, y: 0 },
   velocity: { x: 0, y: 0 },
   color: "blue",
   imageSrc: "./img/samuraiMack/Idle.png",
@@ -71,7 +71,7 @@ const player = new Fighter({
       imageSrc: "./img/samuraiMack/Attack1.png",
       framesMax: 6,
     },
-    takeHit: {
+    takehit: {
       imageSrc: "./img/samuraiMack/Take Hit - white silhouette.png",
       framesMax: 4,
     },
@@ -91,7 +91,7 @@ const player = new Fighter({
 })
 
 const enemy = new Fighter({
-  position: { x: 400, y: 100 },
+  position: { x: 900, y: 100 },
   velocity: { x: 0, y: 0 },
   offset: { x: -50, y: 0 },
   imageSrc: "./img/kenji/Idle.png",
@@ -122,7 +122,7 @@ const enemy = new Fighter({
       imageSrc: "./img/kenji/Attack1.png",
       framesMax: 4,
     },
-    takeHit: {
+    takehit: {
       imageSrc: "./img/kenji/Take hit.png",
       framesMax: 3,
     },
@@ -178,6 +178,8 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height) // Background of arena
   background.update()
   shop.update()
+  c.fillStyle = "rgba(255, 255, 255, 0.1)"
+  c.fillRect(0, 0, canvas.width, canvas.height)
   player.update()
   enemy.update()
 
@@ -228,8 +230,9 @@ function animate() {
   ) {
     player.isAttacking = false // Ensure that only one hit registers
     // console.log("attack hit by player")
-    enemy.health -= 12
-    document.querySelector("#enemyHealth").style.width = enemy.health + "%"
+    enemy.takeHit()
+    // document.querySelector("#enemyHealth").style.width = enemy.health + "%"
+    gsap.to("#enemyHealth", { width: enemy.health + "%" })
   }
 
   // If player misses
@@ -245,8 +248,9 @@ function animate() {
   ) {
     enemy.isAttacking = false // Ensure that only one hit registers
     // console.log("attack hit by enemy")
-    player.health -= 10
-    document.querySelector("#playerHealth").style.width = player.health + "%"
+    player.takeHit()
+    // document.querySelector("#playerHealth").style.width = player.health + "%"
+    gsap.to("#playerHealth", { width: player.health + "%" })
   }
 
   // If enemy misses
@@ -266,50 +270,56 @@ animate()
 // Event Listeners
 // Key Down
 window.addEventListener("keydown", (event) => {
-  switch (event.key) {
-    case "w":
-      keys.w.pressed = true
-      // player.lastKey = "w"
-      // console.log(player.position.y)
-      if (player.position.y >= canvas.height - player.height - 96) {
-        player.velocity.y = -jumpVelocity
-      }
-      break
-    case "a":
-      keys.a.pressed = true
-      player.lastKey = "a"
-      break
-    case "s":
-      keys.s.pressed = true
-      player.lastKey = "s"
-      break
-    case "d":
-      keys.d.pressed = true
-      player.lastKey = "d"
-      break
-    case " ":
-      player.attack()
-      break
+  if (!player.dead) {
+    switch (event.key) {
+      case "w":
+        keys.w.pressed = true
+        // player.lastKey = "w"
+        // console.log(player.position.y)
+        if (player.position.y >= canvas.height - player.height - 96) {
+          player.velocity.y = -jumpVelocity
+        }
+        break
+      case "a":
+        keys.a.pressed = true
+        player.lastKey = "a"
+        break
+      case "s":
+        keys.s.pressed = true
+        player.lastKey = "s"
+        break
+      case "d":
+        keys.d.pressed = true
+        player.lastKey = "d"
+        break
+      case " ":
+        player.attack()
+        break
+    }
+  }
 
-    // Arrow Keys - For player 2
-    case "ArrowLeft":
-      keys.ArrowLeft.pressed = true
-      enemy.lastKey = "ArrowLeft"
-      break
-    case "ArrowRight":
-      keys.ArrowRight.pressed = true
-      enemy.lastKey = "ArrowRight"
-      break
-    case "ArrowUp":
-      keys.ArrowUp.pressed = true
-      // enemy.lastKey = "ArrowUp"
-      if (enemy.position.y >= canvas.height - enemy.height - 96) {
-        enemy.velocity.y = -jumpVelocity
-      }
-      break
-    case "ArrowDown":
-      enemy.attack()
-      break
+  if (!enemy.dead) {
+    switch (event.key) {
+      // Arrow Keys - For player 2
+      case "ArrowLeft":
+        keys.ArrowLeft.pressed = true
+        enemy.lastKey = "ArrowLeft"
+        break
+      case "ArrowRight":
+        keys.ArrowRight.pressed = true
+        enemy.lastKey = "ArrowRight"
+        break
+      case "ArrowUp":
+        keys.ArrowUp.pressed = true
+        // enemy.lastKey = "ArrowUp"
+        if (enemy.position.y >= canvas.height - enemy.height - 96) {
+          enemy.velocity.y = -jumpVelocity
+        }
+        break
+      case "ArrowDown":
+        enemy.attack()
+        break
+    }
   }
   // console.log(event)
 })
