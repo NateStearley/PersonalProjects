@@ -1,0 +1,5 @@
+# .gitignore
+
+
+# Finder creates some weird files when viewing a directory, we don't want to push them
+.DS_Store
